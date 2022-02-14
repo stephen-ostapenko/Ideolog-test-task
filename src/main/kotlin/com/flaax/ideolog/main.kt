@@ -11,7 +11,8 @@ fun processLog(logLines: List<String>): List<String> {
         dict[threadName] = cnt
     }
 
-    return dict.toList().sortedByDescending { it.second }.take(10).map { "${it.first} ${it.second}" }
+    val comp = compareByDescending<Pair<String, Int>> { it.second }.thenBy { it.first }
+    return dict.toList().sortedWith(comp).take(10).map { "${it.first} ${it.second}" }
 }
 
 fun main(args: Array<String>) {

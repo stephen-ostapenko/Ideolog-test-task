@@ -14,12 +14,17 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation("org.junit.jupiter:junit-jupiter:5.4.2")
     testImplementation("junit", "junit", "4.12")
 }
 
 application {
     this.applicationName = "ideolog"
     mainClassName = "com.flaax.ideolog.MainKt"
+}
+
+tasks.withType<Test>().all {
+    useJUnitPlatform()
 }
 
 tasks {
