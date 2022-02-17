@@ -1,6 +1,8 @@
 package com.flaax.ideolog
 
 import java.io.File
+import java.io.FileNotFoundException
+import java.lang.Exception
 
 const val TOP_LINES_NUMBER = 10
 
@@ -21,13 +23,29 @@ fun processLog(logLines: List<String>): List<String> {
 
 fun main(args: Array<String>) {
     if (args.isEmpty()) {
-        println("missing file name")
+        println("Missing input file name")
         return
     }
 
-    val logLines = File(args[0]).readLines()
-    val mostFreqThreads = processLog(logLines)
-    mostFreqThreads.forEach {
-        println(it)
+    try {
+        val logLines = File(args[0]).readLines()
+        val mostFreqThreads = processLog(logLines)
+
+        if (args.size == 1) {
+            mostFreqThreads.forEach {
+                println(it)
+            }
+        } else {
+            File(args[1]).writeText("")
+            mostFreqThreads.forEach {
+                File(args[1]).appendText(it + "\n")
+            }
+            println("Result written to file '${args[1]}'")
+        }
+    } catch (e: FileNotFoundException) {
+        println("Input or output file not found or can't be accessed")
+    } catch (e: Exception) {
+        println("fatal error!\n" +
+                "${e.message}")
     }
 }
